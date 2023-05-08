@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:musicplayer/Screens/HomeScreen/Widgets/miniplayer.dart';
+import 'package:musicplayer/Screens/HomeScreen/homescreen.dart';
 import 'package:musicplayer/Screens/MusicHome/musichome.dart';
 import 'package:musicplayer/Screens/favoritelist.dart';
 import 'package:musicplayer/database/favmodel.dart';
@@ -26,11 +27,11 @@ class _FavoritesState extends State<Favorites> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(Icons.arrow_back_ios_new),
+          icon: const Icon(Icons.arrow_back_ios_new),
           color: Colors.black,
         ),
         elevation: 3,
-        title: Text(
+        title: const Text(
           'Favorites',
           style: TextStyle(fontSize: 30, color: Colors.black),
         ),
@@ -41,7 +42,7 @@ class _FavoritesState extends State<Favorites> {
         valueListenable: favlist,
         builder: (BuildContext context, value, Widget? child) =>
             (favlist.value.isEmpty)
-                ? Center(child: Text('No Favorites'))
+                ? const Center(child: Text('No Favorites'))
                 : favBuilder(),
       ),
     );
@@ -55,9 +56,7 @@ class _FavoritesState extends State<Favorites> {
           padding: const EdgeInsets.all(10.0),
           child: InkWell(
             onTap: () {
-              if (currentplaying != null) {
-                currentplaying.stop();
-              }
+              currentplaying.stop();
               showBottomSheet(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
@@ -72,11 +71,13 @@ class _FavoritesState extends State<Favorites> {
                       index: index,
                     );
                   });
+              Future.delayed(const Duration(seconds: 2));
+              home.notifyListeners();
             },
             child: Container(
               height: MediaQuery.of(context).size.height * 0.1,
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(40),
                       bottomLeft: Radius.circular(40)),
@@ -87,7 +88,7 @@ class _FavoritesState extends State<Favorites> {
                     height: MediaQuery.of(context).size.height * 0.2,
                     width: MediaQuery.of(context).size.width * 0.2,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(30),
                           bottomRight: Radius.circular(30)),
                       child: QueryArtworkWidget(
@@ -108,15 +109,18 @@ class _FavoritesState extends State<Favorites> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    width: 20.w,
+                  ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: 210.w,
+                        width: 190.w,
                         child: Text(
                           '${favlist.value[index].songname}',
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -126,10 +130,8 @@ class _FavoritesState extends State<Favorites> {
                       onPressed: () {
                         removefav(favlist.value[index]);
                         favlist.notifyListeners();
-
-                        print(favlist);
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.favorite,
                         size: 30,
                         color: Colors.red,

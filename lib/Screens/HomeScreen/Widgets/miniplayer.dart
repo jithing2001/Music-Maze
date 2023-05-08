@@ -32,6 +32,7 @@ class MiniPlayer extends StatefulWidget {
     required this.icon3,
     super.key,
   }) {
+    currentlyPlaying = songs[0];
     for (int i = 0; i < songs.length; i++) {
       playinglistAudio.add(Audio.file(songs[i].songurl!,
           metas: Metas(
@@ -72,7 +73,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
       autoStart: true,
       showNotification: notification,
       playInBackground: PlayInBackground.enabled,
-      audioFocusStrategy: AudioFocusStrategy.request(
+      audioFocusStrategy: const AudioFocusStrategy.request(
           resumeAfterInterruption: true, resumeOthersPlayersAfterDone: true),
       headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
     );
@@ -109,11 +110,11 @@ class _MiniPlayerState extends State<MiniPlayer> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.15,
                     width: MediaQuery.of(context).size.width * 0.2,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(30),
                           bottomRight: Radius.circular(30)),
                       child: QueryArtworkWidget(
@@ -207,7 +208,6 @@ class _MiniPlayerState extends State<MiniPlayer> {
                                         await currentplaying.next();
                                         nextDone = true;
                                       }
-                                      // assetsAudioPlayer.next();
                                     });
                                   },
                                   icon: Icon(

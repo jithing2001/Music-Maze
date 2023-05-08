@@ -3,22 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:musicplayer/Screens/HomeScreen/Widgets/listtiledialog.dart';
 import 'package:musicplayer/Screens/HomeScreen/Widgets/miniplayer.dart';
 import 'package:musicplayer/Screens/MusicHome/musichome.dart';
-import 'package:musicplayer/Screens/Playlist/playlistsongs.dart';
 import 'package:musicplayer/Screens/favorites.dart';
-import 'package:musicplayer/functions/recentfunction.dart';
 import 'package:musicplayer/functions/songs.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class RecentScreen extends StatefulWidget {
+class RecentScreen extends StatelessWidget {
   const RecentScreen({super.key});
 
-  @override
-  State<RecentScreen> createState() => _RecentScreenState();
-}
-
-ValueNotifier<List<Songs>> recentSongs = ValueNotifier([]);
-
-class _RecentScreenState extends State<RecentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,9 +44,7 @@ class _RecentScreenState extends State<RecentScreen> {
               padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
               child: InkWell(
                 onTap: () {
-                  if (currentplaying != null) {
-                    currentplaying.stop();
-                  }
+                  currentplaying.stop();
                   showBottomSheet(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
@@ -105,8 +94,9 @@ class _RecentScreenState extends State<RecentScreen> {
                           ),
                         ),
                       ),
+                      SizedBox(width: 20.w),
                       SizedBox(
-                        width: 200.w,
+                        width: 180.w,
                         child: Text(
                           '${recentSongs.value[index].songname}',
                           style: const TextStyle(
@@ -143,3 +133,5 @@ class _RecentScreenState extends State<RecentScreen> {
     );
   }
 }
+
+ValueNotifier<List<Songs>> recentSongs = ValueNotifier([]);

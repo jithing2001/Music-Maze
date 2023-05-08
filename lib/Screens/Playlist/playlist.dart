@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:musicplayer/Screens/Playlist/playlistsongs.dart';
-import 'package:musicplayer/database/playlist_model.dart';
 import 'package:musicplayer/functions/eachplaylist.dart';
-import 'package:musicplayer/functions/functions.dart';
 import 'package:musicplayer/functions/playlistfunction.dart';
 
 class Playlists extends StatefulWidget {
@@ -49,7 +47,7 @@ class _PlaylistState extends State<Playlists> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   backgroundColor: Colors.grey[800],
-                  content: Container(
+                  content: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.161,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,9 +60,7 @@ class _PlaylistState extends State<Playlists> {
                           height: MediaQuery.of(context).size.height * 0.01,
                         ),
                         TextFormField(
-                       
                           controller: playlistcontroller,
-                          // maxLength: 15,
                           decoration: const InputDecoration(
                               filled: true,
                               fillColor: Colors.grey,
@@ -103,7 +99,7 @@ class _PlaylistState extends State<Playlists> {
                 );
               });
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         backgroundColor: Colors.black,
       ),
       body: ValueListenableBuilder(
@@ -120,8 +116,6 @@ class _PlaylistState extends State<Playlists> {
                 : ListView.builder(
                     itemCount: playlistlist.value.length,
                     itemBuilder: ((context, index) {
-                      print('-------');
-                      print(playlistlist.value.length);
                       return Padding(
                         padding:
                             const EdgeInsets.only(top: 15, left: 10, right: 10),
@@ -146,9 +140,90 @@ class _PlaylistState extends State<Playlists> {
                             ),
                             trailing: IconButton(
                                 onPressed: () {
-                                  setState(() {
-                                    playlistdelete(index);
-                                  });
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.12,
+                                              width: 110.w,
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    'Are you sure you want to delete?',
+                                                    style:
+                                                        TextStyle(fontSize: 17),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 30.h,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      InkWell(
+                                                          onTap: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons.close,
+                                                                color:
+                                                                    Colors.red,
+                                                              ),
+                                                              Text(
+                                                                'No',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        17),
+                                                              ),
+                                                            ],
+                                                          )),
+                                                      SizedBox(
+                                                        width: 15.w,
+                                                      ),
+                                                      InkWell(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              playlistdelete(
+                                                                  index);
+                                                            });
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons.done,
+                                                                color: Colors
+                                                                    .green,
+                                                              ),
+                                                              Text('yes',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          17)),
+                                                            ],
+                                                          ))
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      });
                                 },
                                 icon: const Icon(
                                   Icons.delete,

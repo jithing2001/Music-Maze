@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,6 @@ import 'package:musicplayer/Screens/HomeScreen/Widgets/bottomsheet.dart';
 import 'package:musicplayer/Screens/HomeScreen/Widgets/miniplayer.dart';
 import 'package:musicplayer/Screens/favoritelist.dart';
 import 'package:musicplayer/Screens/favorites.dart';
-import 'package:musicplayer/functions/functions.dart';
 import 'package:musicplayer/functions/songs.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -41,25 +42,23 @@ class _MusicHomeState extends State<MusicHome> {
 
   @override
   Widget build(BuildContext context) {
-    final _audioQuery = OnAudioQuery();
     return Scaffold(
       body: SafeArea(
         child: currentplaying.builderCurrent(builder: (context, Playing) {
           playingId = int.parse(Playing.audio.audio.metas.id!);
-         
+
           songfind(playingId!);
 
           return Column(
             children: [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_back_ios,
                         size: 30,
                       )),
@@ -67,32 +66,28 @@ class _MusicHomeState extends State<MusicHome> {
                   Container(
                     height: 250.h,
                     width: MediaQuery.of(context).size.width * 0.6,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(100),
-                          bottomRight: Radius.circular(100)),
-                    ),
-
                     child: QueryArtworkWidget(
                       size: 3000,
                       quality: 100,
                       artworkQuality: FilterQuality.high,
-                      artworkBorder: BorderRadius.only(
-                          bottomLeft: Radius.circular(80),
-                          bottomRight: Radius.circular(80)),
+                      artworkBorder: const BorderRadius.only(
+                          bottomLeft: Radius.circular(100),
+                          bottomRight: Radius.circular(100)),
                       artworkFit: BoxFit.cover,
                       id: int.parse(playingId.toString()),
                       type: ArtworkType.AUDIO,
-                      nullArtworkWidget: ClipRRect(
-                        child: Image.asset(
-                          'Assets/Images/thumbimg.jpg',
-                          fit: BoxFit.cover,
+                      nullArtworkWidget: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(100),
+                              bottomRight: Radius.circular(100)),
+                          image: DecorationImage(
+                              image: AssetImage('Assets/Images/thumbimg.jpg'),
+                              fit: BoxFit.fill),
                         ),
                       ),
                     ),
-
-                    // ),
-                  ),
+                  )
                 ],
               ),
               SizedBox(height: 80.h),
@@ -101,7 +96,7 @@ class _MusicHomeState extends State<MusicHome> {
                 width: 270.w,
                 child: Marquee(
                   text: currentplaying.getCurrentAudioTitle,
-                  pauseAfterRound: Duration(seconds: 3),
+                  pauseAfterRound: const Duration(seconds: 3),
                   velocity: 30,
                   blankSpace: 35,
                   style: GoogleFonts.robotoSlab(
@@ -130,8 +125,6 @@ class _MusicHomeState extends State<MusicHome> {
                             if (isfavcolor == false) {
                               isfavcolor = true;
                               addfav(widget.song);
-
-                              // favlist.add(widget.songname);
                             } else {
                               isfavcolor = false;
                             }
@@ -141,7 +134,7 @@ class _MusicHomeState extends State<MusicHome> {
                           Icons.favorite,
                           size: 30,
                           color: isfavcolor
-                              ? Color.fromARGB(255, 243, 19, 3)
+                              ? const Color.fromARGB(255, 243, 19, 3)
                               : Colors.black,
                         )),
                     IconButton(
@@ -149,7 +142,7 @@ class _MusicHomeState extends State<MusicHome> {
                           showPlaylistModalSheet(
                               context: context, song: widget.song);
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.playlist_add,
                           color: Colors.black,
                           size: 36,
@@ -158,7 +151,7 @@ class _MusicHomeState extends State<MusicHome> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 30, right: 30, top: 0),
+                padding: const EdgeInsets.only(left: 30, right: 30, top: 0),
                 child: currentplaying.builderRealtimePlayingInfos(
                     builder: (context, infos) {
                   Duration currentposition = infos.currentPosition;
@@ -167,7 +160,7 @@ class _MusicHomeState extends State<MusicHome> {
                     progress: currentposition,
                     total: totalduration,
                     baseBarColor: Colors.grey,
-                    thumbColor: Color.fromARGB(255, 247, 22, 6),
+                    thumbColor: const Color.fromARGB(255, 247, 22, 6),
                     onSeek: (to) {
                       currentplaying.seek(to);
                     },
@@ -190,8 +183,8 @@ class _MusicHomeState extends State<MusicHome> {
                         });
                       },
                       icon: isrepeat
-                          ? Icon(Icons.repeat_on, color: Colors.white)
-                          : Icon(
+                          ? const Icon(Icons.repeat_on, color: Colors.white)
+                          : const Icon(
                               Icons.repeat,
                               size: 30,
                             )),

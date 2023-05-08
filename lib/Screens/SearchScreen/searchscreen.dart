@@ -41,11 +41,12 @@ class SearchScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 50, top: 20),
+                    padding: const EdgeInsets.only(top: 20),
                     child: SizedBox(
                       height: 40.h,
-                      width: 250.w,
+                      width: 270.w,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Flexible(
                             child: TextFormField(
@@ -58,14 +59,16 @@ class SearchScreen extends StatelessWidget {
                                   hintText: 'Search here'),
                             ),
                           ),
-                          IconButton(
-                              onPressed: () {
-                                clearText(context);
-                              },
-                              icon: const Icon(
-                                Icons.cancel,
-                                size: 30,
-                              ))
+                          SizedBox(width: 10.w),
+                          InkWell(
+                            onTap: () {
+                              clearText(context);
+                            },
+                            child: Icon(
+                              Icons.cancel_rounded,
+                              size: 45,
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -145,7 +148,6 @@ class SearchScreen extends StatelessWidget {
                   Container(
                     height: 70.h,
                     width: 70.w,
-                  
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(30),

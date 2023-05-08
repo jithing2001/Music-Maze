@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:musicplayer/Screens/HomeScreen/Widgets/miniplayer.dart';
 import 'package:musicplayer/Screens/MusicHome/musichome.dart';
-import 'package:musicplayer/Screens/Playlist/playlist.dart';
 import 'package:musicplayer/functions/eachplaylist.dart';
 import 'package:musicplayer/functions/functions.dart';
 import 'package:musicplayer/functions/playlistfunction.dart';
@@ -53,7 +51,6 @@ class _PlaylistsongsState extends State<Playlistsongs> {
                           key: scaffoldMessengerKey,
                           child: Scaffold(
                             body: Container(
-                              // height: MediaQuery.of(context).size.height * 0.2,
                               width: double.infinity,
                               color: Colors.white,
                               child: ListView.separated(
@@ -132,14 +129,6 @@ class _PlaylistsongsState extends State<Playlistsongs> {
                                                     duration:
                                                         Duration(seconds: 2),
                                                   ));
-                                                  // ScaffoldMessenger.of(context)
-                                                  //     .showSnackBar(SnackBar(
-                                                  //       behavior: SnackBarBehavior.floating,
-                                                  //   content: Text(
-                                                  //       'Song already Contains'),
-                                                  //   backgroundColor: Colors.grey,
-                                                  //   duration: Duration(seconds: 3),
-                                                  // ));
                                                 } else {
                                                   setState(() {
                                                     widget.playlistEach.songlist
@@ -236,8 +225,9 @@ class _PlaylistsongsState extends State<Playlistsongs> {
                                   ),
                                 ),
                               ),
+                              SizedBox(width: 20.w),
                               SizedBox(
-                                width: 200,
+                                width: 190,
                                 child: Text(
                                   widget.playlistEach.songlist[index].songname
                                       .toString(),

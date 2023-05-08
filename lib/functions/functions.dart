@@ -1,7 +1,6 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:musicplayer/Screens/Playlist/playlist.dart';
-import 'package:musicplayer/Screens/Playlist/playlistsongs.dart';
 import 'package:musicplayer/Screens/RecentScreen/recentscreen.dart';
 import 'package:musicplayer/Screens/Settings/settings.dart';
 import 'package:musicplayer/Screens/favorites.dart';

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:musicplayer/Screens/Playlist/playlist.dart';
-import 'package:musicplayer/functions/eachplaylist.dart';
 import 'package:musicplayer/functions/playlistfunction.dart';
 
 class BottomsheetDialog extends StatefulWidget {
@@ -28,8 +26,8 @@ class _BottomsheetDialogState extends State<BottomsheetDialog> {
         ),
         child: Column(
           children: [
-            SizedBox(height: 20),
-            Text(
+            SizedBox(height: 20.h),
+            const Text(
               'Add new Playlist',
               style: TextStyle(color: Colors.black, fontSize: 20),
             ),
@@ -41,15 +39,14 @@ class _BottomsheetDialogState extends State<BottomsheetDialog> {
               height: 60.h,
               child: TextFormField(
                 controller: playlistcontroller,
-                maxLength: 15,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     filled: true,
                     fillColor: Colors.grey,
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.blue))),
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.012),
             InkWell(
               onTap: () {
                 setState(() {
@@ -61,7 +58,7 @@ class _BottomsheetDialogState extends State<BottomsheetDialog> {
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Icon(
                     Icons.library_add,
                     color: Colors.black,

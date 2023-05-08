@@ -21,8 +21,7 @@ Future playlistSongsAddDB(Songs addingSong, String playlistName) async {
       updatePlaylist.songsId.addAll(element.songsId);
       updatePlaylist.songsId.add(addingSong.id!);
       playlistdb.put(key, updatePlaylist);
-      print(playlistdb.values);
-      break;
+     break;
     }
   }
 

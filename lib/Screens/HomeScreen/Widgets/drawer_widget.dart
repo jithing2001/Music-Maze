@@ -29,10 +29,10 @@ class DrawerListTile extends StatelessWidget {
       ),
       title: Text(
         drawertitle,
-        style: TextStyle(fontSize: 15),
-        textAlign: TextAlign.center,
+        style: const TextStyle(fontSize: 17),
+        textAlign: TextAlign.left,
       ),
-      trailing: Icon(Icons.arrow_forward_ios_rounded),
+      trailing: const Icon(Icons.arrow_forward_ios_rounded),
     );
   }
 }

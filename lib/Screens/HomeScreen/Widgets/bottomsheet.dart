@@ -10,7 +10,6 @@ import 'package:musicplayer/functions/songs.dart';
 
 showPlaylistModalSheet({required BuildContext context, required Songs song}) {
   final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
-  EachPlaylist? playlistEach;
   return showModalBottomSheet(
       backgroundColor: const Color.fromARGB(0, 194, 28, 28),
       context: context,
@@ -39,7 +38,7 @@ showPlaylistModalSheet({required BuildContext context, required Songs song}) {
                             if (playlistlist.value[index].songlist
                                 .contains(song)) {
                               scaffoldMessengerKey.currentState!
-                                  .showSnackBar(SnackBar(
+                                  .showSnackBar(const SnackBar(
                                 content: Text('song already exist'),
                                 duration: Duration(seconds: 2),
                               ));
@@ -63,7 +62,7 @@ showPlaylistModalSheet({required BuildContext context, required Songs song}) {
                                   width:
                                       MediaQuery.of(context).size.width * 0.05,
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.video_library_outlined,
                                   color: Colors.white,
                                   size: 35,
@@ -73,7 +72,7 @@ showPlaylistModalSheet({required BuildContext context, required Songs song}) {
                                         0.3),
                                 Text(
                                   playlistlist.value[index].name,
-                                  style: TextStyle(fontSize: 20),
+                                  style: const TextStyle(fontSize: 20),
                                 )
                               ],
                             ),
@@ -90,22 +89,21 @@ showPlaylistModalSheet({required BuildContext context, required Songs song}) {
                       color: Colors.grey,
                       child: InkWell(
                         onTap: () {
-                          log('tap');
                           showDialog(
                               context: context,
                               builder: (context) {
-                                return BottomsheetDialog();
+                                return const BottomsheetDialog();
                               });
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.playlist_add,
                               size: 25,
                             ),
                             SizedBox(width: 10.w),
-                            Text(
+                            const Text(
                               'Create new Playlist',
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),

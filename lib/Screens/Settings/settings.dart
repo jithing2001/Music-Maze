@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:musicplayer/Screens/Settings/widgets/privacy_policy_dialogue.dart';
 import 'package:musicplayer/Screens/Settings/widgets/settingstile.dart';
 import 'package:musicplayer/Screens/Settings/widgets/about.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -51,10 +52,14 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.023),
-                SettingsTile(
-                  title: 'Share This App',
-                  tileicon: Icons.share,
-                  click: const Card(),
+                GestureDetector(
+                  onTap: () => Share.share(
+                      'https://play.google.com/store/apps/details?id=com.jithin.music_maze'),
+                  child: SettingsTile(
+                    title: 'Share This App',
+                    tileicon: Icons.share,
+                    click: const Card(),
+                  ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.023),
                 GestureDetector(
@@ -101,7 +106,7 @@ class _SettingsState extends State<Settings> {
                               name: 'MUSIC MAZE',
                               text1: 'App Designed and Developed\nby JITHIN',
                               contact: 'CONTACT',
-                              mail: 'jithinkyd2@gmail.com',
+                              mail: 'jithinkyd70@gmail.com',
                             ),
                           );
                         });

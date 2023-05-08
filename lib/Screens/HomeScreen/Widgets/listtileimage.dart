@@ -15,12 +15,12 @@ class Listtileimage extends StatelessWidget {
     return Container(
       height: 70.h,
       width: MediaQuery.of(context).size.width * 0.2,
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
             topLeft: Radius.circular(40), bottomLeft: Radius.circular(40)),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
             topRight: Radius.circular(30), bottomRight: Radius.circular(30)),
         child: QueryArtworkWidget(
           size: 3000,

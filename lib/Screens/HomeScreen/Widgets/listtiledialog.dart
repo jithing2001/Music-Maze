@@ -20,7 +20,7 @@ class _ListtiledialogboxState extends State<Listtiledialogbox> {
     return Container(
       height: MediaQuery.of(context).size.height * 0.16,
       width: 110.w,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.rectangle,
       ),
       child: Padding(
@@ -71,7 +71,7 @@ class _ListtiledialogboxState extends State<Listtiledialogbox> {
                   ),
                   Text(
                     widget.isfav ? 'Remove from Favorites' : 'Add to Favorites',
-                    style: TextStyle(color: Colors.black, fontSize: 20),
+                    style: const TextStyle(color: Colors.black, fontSize: 20),
                   ),
                 ],
               ),

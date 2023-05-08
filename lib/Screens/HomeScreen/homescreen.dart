@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mini_music_visualizer/mini_music_visualizer.dart';
 import 'package:musicplayer/Screens/HomeScreen/Widgets/drawer_widget.dart';
 import 'package:musicplayer/Screens/HomeScreen/Widgets/listtiledialog.dart';
 import 'package:musicplayer/Screens/HomeScreen/Widgets/listtileimage.dart';
@@ -14,6 +13,8 @@ import 'package:musicplayer/Screens/Settings/settings.dart';
 import 'package:musicplayer/Screens/favorites.dart';
 import 'package:musicplayer/functions/functions.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+
+ValueNotifier<bool> home = ValueNotifier(true);
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -40,7 +41,7 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               _scaffoldKey.currentState!.openDrawer();
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.menu,
               color: Colors.black,
               size: 30,
@@ -51,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => SearchScreen()));
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.manage_search,
                 color: Colors.black,
                 size: 30,
@@ -62,107 +63,116 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: allsongs.isEmpty
-          ? Center(
+          ? const Center(
               child: Text('No songs found'),
             )
-          : ListView.separated(
-              separatorBuilder: (context, index) {
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                );
-              },
-              itemCount: allsongs.length,
-              itemBuilder: ((context, index) {
-                return InkWell(
-                  onTap: () {
-                    if (currentplaying != null) {
-                      currentplaying.stop();
+          : ValueListenableBuilder(
+              valueListenable: home,
+              builder: (context, value, child) {
+                return ListView.separated(
+                  separatorBuilder: (context, index) {
+                    if (currentlyPlaying != null) {
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                        showBottomSheet(
+                          enableDrag: false,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            context: context,
+                            builder: (context) {
+                              return MiniPlayer(
+                                  img: 'Assets/Images/thumbimg.jpg',
+                                  songs: allsongs,
+                                  index: index,
+                                  icon1: Icons.skip_previous,
+                                  icon2: Icons.pause,
+                                  icon3: Icons.skip_next);
+                            });
+                      });
                     }
-                    showBottomSheet(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        context: context,
-                        builder: (context) {
-                          return MiniPlayer(
-                              img: 'Assets/Images/thumbimg.jpg',
-                              songs: allsongs,
-                              index: index,
-                              icon1: Icons.skip_previous,
-                              icon2: Icons.pause,
-                              icon3: Icons.skip_next);
-                        });
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    );
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              bottomLeft: Radius.circular(10)),
-                          color: Colors.white),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Listtileimage(
-                            songs: allsongs[index],
-                          ),
-                          SizedBox(width: 30.w),
-                          SizedBox(
-                            width: 150.w,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(allsongs[index].songname.toString(),
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                    overflow: TextOverflow.ellipsis),
-                                SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.01),
-                                Row(
+                  itemCount: allsongs.length,
+                  itemBuilder: ((context, index) {
+                    return InkWell(
+                      onTap: () {
+                        
+                        currentplaying.stop();
+                        home.notifyListeners();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  bottomLeft: Radius.circular(10)),
+                              color: Colors.white),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Listtileimage(
+                                songs: allsongs[index],
+                              ),
+                              SizedBox(width: 30.w),
+                              SizedBox(
+                                width: 150.w,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    // SizedBox(width: 20),
+                                    Text(allsongs[index].songname.toString(),
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                        overflow: TextOverflow.ellipsis),
                                     SizedBox(
-                                      width: 100.w,
-                                      child: Text(
-                                        allsongs[index].artist.toString(),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.01),
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 100.w,
+                                          child: Text(
+                                            allsongs[index].artist.toString(),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    )
                                   ],
-                                )
-                              ],
-                            ),
+                                ),
+                              ),
+                              const Spacer(),
+                              IconButton(
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Dialog(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: Listtiledialogbox(
+                                                isfav: favlist.value
+                                                    .contains(allsongs[index]),
+                                                song: allsongs[index]),
+                                          );
+                                        });
+                                  },
+                                  icon: const Icon(Icons.more_horiz))
+                            ],
                           ),
-                          Spacer(),
-                          IconButton(
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Listtiledialogbox(
-                                            isfav: favlist.value
-                                                .contains(allsongs[index]),
-                                            song: allsongs[index]),
-                                      );
-                                    });
-                              },
-                              icon: const Icon(Icons.more_horiz))
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  }),
                 );
               }),
-            ),
       drawer: Drawer(
         child: ListView(
           children: [
@@ -170,7 +180,8 @@ class HomeScreen extends StatelessWidget {
               child: Text(
                 'MUSIC MAZE',
                 style: GoogleFonts.acme(
-                    color: Color.fromARGB(255, 195, 28, 16), fontSize: 30),
+                    color: const Color.fromARGB(255, 195, 28, 16),
+                    fontSize: 30),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -178,7 +189,7 @@ class HomeScreen extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => RecentScreen(),
+                  builder: (context) => const RecentScreen(),
                 ));
               },
               child: DrawerListTile(
@@ -202,8 +213,8 @@ class HomeScreen extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Favorites()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const Favorites()));
               },
               child: DrawerListTile(
                   drawericon: Icons.favorite,
@@ -213,8 +224,8 @@ class HomeScreen extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Settings()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const Settings()));
               },
               child: DrawerListTile(
                   drawericon: Icons.settings,
