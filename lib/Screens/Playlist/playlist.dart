@@ -73,7 +73,6 @@ class _PlaylistState extends State<Playlists> {
                           onTap: () {
                             setState(() {
                               playlistCreating(playlistcontroller.text);
-
                               playlistcontroller.text = '';
                             });
 
@@ -99,7 +98,7 @@ class _PlaylistState extends State<Playlists> {
                 );
               });
         },
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add),
         backgroundColor: Colors.black,
       ),
       body: ValueListenableBuilder(

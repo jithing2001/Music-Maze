@@ -3,94 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:marquee/marquee.dart';
 import 'package:musicplayer/Screens/MusicHome/musichome.dart';
-import 'package:musicplayer/Screens/Playlist/playlistsongs.dart';
-import 'package:musicplayer/Screens/RecentScreen/recentscreen.dart';
 import 'package:musicplayer/Screens/Settings/settings.dart';
 import 'package:musicplayer/functions/functions.dart';
 import 'package:musicplayer/functions/recentfunction.dart';
 import 'package:musicplayer/functions/songs.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
+List<Audio> playinglistAudio = [];
+
 class MiniPlayer extends StatefulWidget {
-  String img;
-
-  List<Songs> songs = [];
-  List<Audio> playinglistAudio = [];
-  int index;
-  bool prevvisible = true;
-  bool nxtvisible = true;
-
-  IconData icon1;
-  IconData icon2;
-  IconData icon3;
-  MiniPlayer({
-    required this.img,
-    required this.songs,
-    required this.index,
-    required this.icon1,
-    required this.icon2,
-    required this.icon3,
+  const MiniPlayer({
     super.key,
-  }) {
-    currentlyPlaying = songs[0];
-    for (int i = 0; i < songs.length; i++) {
-      playinglistAudio.add(Audio.file(songs[i].songurl!,
-          metas: Metas(
-            title: songs[i].songname,
-            artist: songs[i].artist,
-            id: songs[i].id.toString(),
-          )));
-    }
-  }
+  });
 
   @override
   State<MiniPlayer> createState() => _MiniPlayerState();
 }
 
 class _MiniPlayerState extends State<MiniPlayer> {
-  bool prevvisible = true;
-  bool nxtvisible = true;
-  bool nextDone = true;
-  bool preDone = true;
-
-  buttondesable() {
-    if (widget.index == 0) {
-      prevvisible = false;
-    } else {
-      prevvisible = true;
-    }
-
-    if (widget.index == songs.length - 1) {
-      nxtvisible = false;
-    } else {
-      nxtvisible = true;
-    }
-  }
-
-  void initState() {
-    currentplaying.open(
-      Playlist(audios: widget.playinglistAudio, startIndex: widget.index),
-      autoStart: true,
-      showNotification: notification,
-      playInBackground: PlayInBackground.enabled,
-      audioFocusStrategy: const AudioFocusStrategy.request(
-          resumeAfterInterruption: true, resumeOthersPlayersAfterDone: true),
-      headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
-    );
-    currentplaying.setLoopMode(LoopMode.playlist);
-    buttondesable();
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => MusicHome(
-                  song: widget.songs[widget.index],
-                )));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const MusicHome()));
       },
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.11,
@@ -103,10 +39,9 @@ class _MiniPlayerState extends State<MiniPlayer> {
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: currentplaying.builderCurrent(builder: (context, Playing) {
+            child: player.builderCurrent(builder: (context, Playing) {
               playingId = int.parse(Playing.audio.audio.metas.id!);
               songfind(playingId!);
-
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -123,6 +58,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                         artworkQuality: FilterQuality.high,
                         artworkBorder: BorderRadius.circular(10),
                         artworkFit: BoxFit.cover,
+                        keepOldArtwork: true,
                         id: int.parse(playingId.toString()),
                         type: ArtworkType.AUDIO,
                         nullArtworkWidget: ClipRRect(
@@ -139,7 +75,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                     height: 20.h,
                     width: 120.w,
                     child: Marquee(
-                      text: currentplaying.getCurrentAudioTitle,
+                      text: player.getCurrentAudioTitle,
                       pauseAfterRound: const Duration(seconds: 5),
                       velocity: 30,
                       blankSpace: 35,
@@ -152,39 +88,24 @@ class _MiniPlayerState extends State<MiniPlayer> {
                   ),
                   Row(
                     children: [
-                      prevvisible
-                          ? Visibility(
-                              visible: prevvisible,
-                              child: IconButton(
-                                  onPressed: () {
-                                    setState(() async {
-                                      widget.index = widget.index - 1;
-                                      if (widget.index != songs.length - 1) {
-                                        nxtvisible = true;
-                                      }
-                                      if (preDone) {
-                                        preDone = false;
-                                        await currentplaying.previous();
-                                        preDone = true;
-                                      }
-                                    });
-                                  },
-                                  icon: Icon(
-                                    widget.icon1,
-                                    size: 30,
-                                  )),
-                            )
-                          : SizedBox(
-                              width: 30.w,
-                            ),
+                      IconButton(
+                          onPressed: () {
+                            setState(() async {
+                              await player.previous();
+                            });
+                          },
+                          icon: Icon(
+                            Icons.skip_previous,
+                            size: 30,
+                          )),
                       PlayerBuilder.isPlaying(
-                        player: currentplaying,
+                        player: player,
                         builder: (context, isPlaying) {
                           return IconButton(
                               onPressed: () {
                                 setState(() {
                                   isPlaying = !isPlaying;
-                                  currentplaying.playOrPause();
+                                  player.playOrPause();
                                 });
                               },
                               icon: Icon(
@@ -193,31 +114,16 @@ class _MiniPlayerState extends State<MiniPlayer> {
                               ));
                         },
                       ),
-                      nxtvisible
-                          ? Visibility(
-                              visible: nxtvisible,
-                              child: IconButton(
-                                  onPressed: () {
-                                    setState(() async {
-                                      widget.index = widget.index + 1;
-                                      if (widget.index > 0) {
-                                        prevvisible = true;
-                                      }
-                                      if (nextDone) {
-                                        nextDone = false;
-                                        await currentplaying.next();
-                                        nextDone = true;
-                                      }
-                                    });
-                                  },
-                                  icon: Icon(
-                                    widget.icon3,
-                                    size: 30,
-                                  )),
-                            )
-                          : SizedBox(
-                              width: 30.w,
-                            )
+                      IconButton(
+                          onPressed: () {
+                            setState(() async {
+                              await player.next();
+                            });
+                          },
+                          icon: Icon(
+                            Icons.skip_next,
+                            size: 30,
+                          ))
                     ],
                   ),
                 ],
@@ -238,4 +144,28 @@ songfind(int playid) {
     }
   }
   addrecent(currentlyPlaying!);
+}
+
+playsong(int index, List<Songs> songlist) {
+  player.stop();
+  playinglistAudio.clear();
+  currentlyPlaying = songlist[index];
+  for (int i = 0; i < songlist.length; i++) {
+    playinglistAudio.add(Audio.file(songlist[i].songurl!,
+        metas: Metas(
+          title: songlist[i].songname,
+          artist: songlist[i].artist,
+          id: songlist[i].id.toString(),
+        )));
+  }
+  player.open(
+    Playlist(audios: playinglistAudio, startIndex: index),
+    autoStart: true,
+    showNotification: notification,
+    playInBackground: PlayInBackground.enabled,
+    audioFocusStrategy: const AudioFocusStrategy.request(
+        resumeAfterInterruption: true, resumeOthersPlayersAfterDone: true),
+    headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
+  );
+  player.setLoopMode(LoopMode.playlist);
 }

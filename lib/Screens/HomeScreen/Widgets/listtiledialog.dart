@@ -32,7 +32,10 @@ class _ListtiledialogboxState extends State<Listtiledialogbox> {
               onTap: () {
                 Navigator.of(context).pop();
 
-                showPlaylistModalSheet(context: context, song: widget.song,);
+                showPlaylistModalSheet(
+                  context: context,
+                  song: widget.song,
+                );
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -53,10 +56,18 @@ class _ListtiledialogboxState extends State<Listtiledialogbox> {
                   if (widget.isfav == true) {
                     widget.isfav = false;
                     removefav(widget.song);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Song removed from favorites'),
+                      duration: Duration(seconds: 2),
+                    ));
                   } else {
                     widget.isfav = true;
 
                     addfav(widget.song);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Song added to favorites'),
+                      duration: Duration(seconds: 2),
+                    ));
                   }
                   favlist.notifyListeners();
                 });

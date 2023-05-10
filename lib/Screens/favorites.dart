@@ -4,8 +4,6 @@ import 'package:musicplayer/Screens/HomeScreen/Widgets/miniplayer.dart';
 import 'package:musicplayer/Screens/HomeScreen/homescreen.dart';
 import 'package:musicplayer/Screens/MusicHome/musichome.dart';
 import 'package:musicplayer/Screens/favoritelist.dart';
-import 'package:musicplayer/database/favmodel.dart';
-import 'package:musicplayer/functions/functions.dart';
 import 'package:musicplayer/functions/songs.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -56,22 +54,15 @@ class _FavoritesState extends State<Favorites> {
           padding: const EdgeInsets.all(10.0),
           child: InkWell(
             onTap: () {
-              currentplaying.stop();
+              playsong(index, favlist.value);
               showBottomSheet(
+                  enableDrag: false,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   context: context,
                   builder: (context) {
-                    return MiniPlayer(
-                      img: 'Assets/Images/thumbimg.jpg',
-                      icon1: Icons.skip_previous,
-                      icon2: Icons.pause,
-                      icon3: Icons.skip_next,
-                      songs: favlist.value,
-                      index: index,
-                    );
+                    return MiniPlayer();
                   });
-              Future.delayed(const Duration(seconds: 2));
               home.notifyListeners();
             },
             child: Container(
@@ -129,6 +120,11 @@ class _FavoritesState extends State<Favorites> {
                   IconButton(
                       onPressed: () {
                         removefav(favlist.value[index]);
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text('Song removed from favorites'),
+                          duration: Duration(seconds: 2),
+                        ));
                         favlist.notifyListeners();
                       },
                       icon: const Icon(

@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
@@ -15,15 +17,13 @@ import 'package:musicplayer/functions/songs.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class MusicHome extends StatefulWidget {
-  Songs song;
-
-  MusicHome({super.key, required this.song});
+  const MusicHome({super.key});
 
   @override
   State<MusicHome> createState() => _MusicHomeState();
 }
 
-AssetsAudioPlayer currentplaying = AssetsAudioPlayer();
+AssetsAudioPlayer player = AssetsAudioPlayer();
 int? playingId;
 Songs? currentlyPlaying;
 
@@ -31,20 +31,19 @@ class _MusicHomeState extends State<MusicHome> {
   bool isfavcolor = false;
   bool isrepeat = false;
   bool isshuffle = false;
-  // int repeat = 0;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    isfavcolor = favlist.value.contains(widget.song);
+    isfavcolor = favlist.value.contains(currentlyPlaying);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: currentplaying.builderCurrent(builder: (context, Playing) {
+        child: player.builderCurrent(builder: (context, Playing) {
           playingId = int.parse(Playing.audio.audio.metas.id!);
 
           songfind(playingId!);
@@ -63,13 +62,14 @@ class _MusicHomeState extends State<MusicHome> {
                         size: 30,
                       )),
                   SizedBox(width: 30.w),
-                  Container(
+                  SizedBox(
                     height: 250.h,
                     width: MediaQuery.of(context).size.width * 0.6,
                     child: QueryArtworkWidget(
                       size: 3000,
                       quality: 100,
                       artworkQuality: FilterQuality.high,
+                      keepOldArtwork: true,
                       artworkBorder: const BorderRadius.only(
                           bottomLeft: Radius.circular(100),
                           bottomRight: Radius.circular(100)),
@@ -95,7 +95,7 @@ class _MusicHomeState extends State<MusicHome> {
                 height: 40.h,
                 width: 270.w,
                 child: Marquee(
-                  text: currentplaying.getCurrentAudioTitle,
+                  text: player.getCurrentAudioTitle,
                   pauseAfterRound: const Duration(seconds: 3),
                   velocity: 30,
                   blankSpace: 35,
@@ -107,11 +107,13 @@ class _MusicHomeState extends State<MusicHome> {
                 height: 10.h,
               ),
               SizedBox(
-                width: 120.w,
-                child: Text(
-                  currentplaying.getCurrentAudioArtist,
-                  style: GoogleFonts.robotoSlab(),
-                  overflow: TextOverflow.ellipsis,
+                width: 150.w,
+                child: Center(
+                  child: Text(
+                    player.getCurrentAudioArtist,
+                    style: GoogleFonts.robotoSlab(),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
               Padding(
@@ -124,10 +126,22 @@ class _MusicHomeState extends State<MusicHome> {
                           setState(() {
                             if (isfavcolor == false) {
                               isfavcolor = true;
-                              addfav(widget.song);
+                              addfav(currentlyPlaying!);
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Song added to favorites'),
+                                duration: Duration(seconds: 2),
+                              ));
                             } else {
                               isfavcolor = false;
+                              removefav(currentlyPlaying!);
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text('Song removed from favorites'),
+                                duration: Duration(seconds: 2),
+                              ));
                             }
+                            favlist.notifyListeners();
                           });
                         },
                         icon: Icon(
@@ -140,7 +154,7 @@ class _MusicHomeState extends State<MusicHome> {
                     IconButton(
                         onPressed: () {
                           showPlaylistModalSheet(
-                              context: context, song: widget.song);
+                              context: context, song: currentlyPlaying!);
                         },
                         icon: const Icon(
                           Icons.playlist_add,
@@ -152,7 +166,7 @@ class _MusicHomeState extends State<MusicHome> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 30, right: 30, top: 0),
-                child: currentplaying.builderRealtimePlayingInfos(
+                child: player.builderRealtimePlayingInfos(
                     builder: (context, infos) {
                   Duration currentposition = infos.currentPosition;
                   Duration totalduration = infos.duration;
@@ -162,7 +176,7 @@ class _MusicHomeState extends State<MusicHome> {
                     baseBarColor: Colors.grey,
                     thumbColor: const Color.fromARGB(255, 247, 22, 6),
                     onSeek: (to) {
-                      currentplaying.seek(to);
+                      player.seek(to);
                     },
                   );
                 }),
@@ -175,10 +189,10 @@ class _MusicHomeState extends State<MusicHome> {
                         setState(() {
                           if (isrepeat == false) {
                             isrepeat = true;
-                            currentplaying.setLoopMode(LoopMode.single);
+                            player.setLoopMode(LoopMode.single);
                           } else {
                             isrepeat = false;
-                            currentplaying.setLoopMode(LoopMode.playlist);
+                            player.setLoopMode(LoopMode.playlist);
                           }
                         });
                       },
@@ -194,10 +208,10 @@ class _MusicHomeState extends State<MusicHome> {
                   IconButton(
                       onPressed: () {
                         setState(() {
-                          currentplaying.toggleShuffle();
+                          player.toggleShuffle();
                         });
                       },
-                      icon: currentplaying.isShuffling.value
+                      icon: player.isShuffling.value
                           ? const Icon(
                               Icons.shuffle_on_outlined,
                               color: Colors.white,
@@ -214,36 +228,34 @@ class _MusicHomeState extends State<MusicHome> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                mainAxisSize: MainAxisSize.max,
+                // mainAxisSize: MainAxisSize.max,
                 children: [
                   IconButton(
                       onPressed: () {
-                        currentplaying.previous();
+                        player.previous();
                       },
                       icon: const Icon(Icons.skip_previous, size: 35)),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20, right: 17),
-                    child: PlayerBuilder.isPlaying(
-                      player: currentplaying,
-                      builder: (context, isPlaying) {
-                        return IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isPlaying = !isPlaying;
-                                currentplaying.playOrPause();
-                              });
-                            },
-                            icon: Icon(
-                                isPlaying
-                                    ? Icons.pause_circle_filled
-                                    : Icons.play_circle_fill,
-                                size: 60));
-                      },
-                    ),
+                  PlayerBuilder.isPlaying(
+                    player: player,
+                    builder: (context, isPlaying) {
+                      return InkWell(
+                        onTap: () {
+                          setState(() {
+                            isPlaying = !isPlaying;
+                            player.playOrPause();
+                          });
+                        },
+                        child: Icon(
+                            isPlaying
+                                ? Icons.pause_circle_filled
+                                : Icons.play_circle_fill,
+                            size: 60),
+                      );
+                    },
                   ),
                   IconButton(
                       onPressed: () {
-                        currentplaying.next();
+                        player.next();
                       },
                       icon: const Icon(Icons.skip_next, size: 35)),
                 ],

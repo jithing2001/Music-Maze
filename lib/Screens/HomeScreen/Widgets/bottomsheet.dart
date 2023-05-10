@@ -1,10 +1,8 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:musicplayer/Screens/HomeScreen/Widgets/dialogboxbottomsheet.dart';
 import 'package:musicplayer/Screens/Playlist/playlist.dart';
-import 'package:musicplayer/functions/eachplaylist.dart';
 import 'package:musicplayer/functions/playlistfunction.dart';
 import 'package:musicplayer/functions/songs.dart';
 
@@ -46,8 +44,11 @@ showPlaylistModalSheet({required BuildContext context, required Songs song}) {
                               playlistSongsAddDB(
                                   song, playlistlist.value[index].name);
                               playlistlist.value[index].songlist.add(song);
-
-                              Navigator.pop(context);
+                              scaffoldMessengerKey.currentState!
+                                  .showSnackBar(const SnackBar(
+                                content: Text('song added'),
+                                duration: Duration(seconds: 2),
+                              ));
                             }
                           },
                           child: Container(
@@ -67,12 +68,19 @@ showPlaylistModalSheet({required BuildContext context, required Songs song}) {
                                   color: Colors.white,
                                   size: 35,
                                 ),
-                                SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.3),
-                                Text(
-                                  playlistlist.value[index].name,
-                                  style: const TextStyle(fontSize: 20),
+                               
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 230.w,
+                                      child: Text(
+                                        playlistlist.value[index].name,
+                                        style: const TextStyle(fontSize: 20),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ],
                                 )
                               ],
                             ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:musicplayer/Screens/Settings/settings.dart';
 import 'package:musicplayer/Screens/SplashScreen/splashscreen.dart';
 import 'package:flutter/services.dart';
 import 'package:musicplayer/database/favmodel.dart';

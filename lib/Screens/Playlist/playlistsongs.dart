@@ -17,8 +17,6 @@ class Playlistsongs extends StatefulWidget {
   State<Playlistsongs> createState() => _PlaylistsongsState();
 }
 
-@override
-List<Songs> songs = [];
 List<String> playlistsong = [];
 
 class _PlaylistsongsState extends State<Playlistsongs> {
@@ -167,27 +165,18 @@ class _PlaylistsongsState extends State<Playlistsongs> {
             : ListView.builder(
                 itemCount: widget.playlistEach.songlist.length,
                 itemBuilder: (context, index) {
-                  print(widget.playlistEach.songlist.length);
                   return Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: InkWell(
                       onTap: () {
-                        if (currentplaying != null) {
-                          currentplaying.stop();
-                        }
+                        playsong(index, widget.playlistEach.songlist);
                         showBottomSheet(
+                            enableDrag: false,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20)),
                             context: context,
                             builder: (context) {
-                              return MiniPlayer(
-                                img: 'Assets/Images/thumbimg.jpg',
-                                icon1: Icons.skip_previous,
-                                icon2: Icons.pause,
-                                icon3: Icons.skip_next,
-                                songs: widget.playlistEach.songlist,
-                                index: index,
-                              );
+                              return MiniPlayer();
                             });
                       },
                       child: Container(

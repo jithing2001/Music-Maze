@@ -26,4 +26,5 @@ addrecent(Songs song) async {
     recentSongs.value = recentSongs.value.sublist(0, 10);
     recentdb.deleteAt(0);
   }
+  recentSongs.notifyListeners();
 }

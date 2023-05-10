@@ -117,22 +117,14 @@ class SearchScreen extends StatelessWidget {
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: InkWell(
             onTap: () {
-              if (currentplaying != null) {
-                currentplaying.stop();
-              }
+              playsong(index, allsongs);
               showBottomSheet(
+                enableDrag: false,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   context: context,
                   builder: (context) {
-                    return MiniPlayer(
-                      img: 'Assets/Images/thumbimg.jpg',
-                      icon1: Icons.skip_previous,
-                      icon2: Icons.pause,
-                      icon3: Icons.skip_next,
-                      songs: allsongs,
-                      index: index,
-                    );
+                    return MiniPlayer();
                   });
             },
             child: Container(
@@ -225,22 +217,14 @@ class SearchScreen extends StatelessWidget {
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: InkWell(
             onTap: () {
-              if (currentplaying != null) {
-                currentplaying.stop();
-              }
+              playsong(index, data.value);
               showBottomSheet(
+                enableDrag: false,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   context: context,
                   builder: (context) {
-                    return MiniPlayer(
-                      img: 'Assets/Images/thumbimg.jpg',
-                      icon1: Icons.skip_previous,
-                      icon2: Icons.pause,
-                      icon3: Icons.skip_next,
-                      songs: data.value,
-                      index: index,
-                    );
+                    return MiniPlayer();
                   });
             },
             child: Container(

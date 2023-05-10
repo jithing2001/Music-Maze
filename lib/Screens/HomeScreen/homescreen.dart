@@ -74,18 +74,13 @@ class HomeScreen extends StatelessWidget {
                     if (currentlyPlaying != null) {
                       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                         showBottomSheet(
-                          enableDrag: false,
+                            enableDrag: false,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20)),
                             context: context,
                             builder: (context) {
                               return MiniPlayer(
-                                  img: 'Assets/Images/thumbimg.jpg',
-                                  songs: allsongs,
-                                  index: index,
-                                  icon1: Icons.skip_previous,
-                                  icon2: Icons.pause,
-                                  icon3: Icons.skip_next);
+                                 );
                             });
                       });
                     }
@@ -97,8 +92,7 @@ class HomeScreen extends StatelessWidget {
                   itemBuilder: ((context, index) {
                     return InkWell(
                       onTap: () {
-                        
-                        currentplaying.stop();
+                        playsong(index, allsongs);
                         home.notifyListeners();
                       },
                       child: Padding(
