@@ -1,6 +1,4 @@
-// ignore_for_file: prefer_const_constructors
 
-import 'dart:async';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
@@ -77,7 +75,7 @@ class _MusicHomeState extends State<MusicHome> {
                       id: int.parse(playingId.toString()),
                       type: ArtworkType.AUDIO,
                       nullArtworkWidget: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(100),
                               bottomRight: Radius.circular(100)),
@@ -128,7 +126,7 @@ class _MusicHomeState extends State<MusicHome> {
                               isfavcolor = true;
                               addfav(currentlyPlaying!);
                               ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
+                                  .showSnackBar(const SnackBar(
                                 content: Text('Song added to favorites'),
                                 duration: Duration(seconds: 2),
                               ));
@@ -136,7 +134,7 @@ class _MusicHomeState extends State<MusicHome> {
                               isfavcolor = false;
                               removefav(currentlyPlaying!);
                               ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
+                                  .showSnackBar(const SnackBar(
                                 content: Text('Song removed from favorites'),
                                 duration: Duration(seconds: 2),
                               ));
