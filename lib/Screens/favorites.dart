@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:musicplayer/Screens/HomeScreen/Widgets/miniplayer.dart';
 import 'package:musicplayer/Screens/HomeScreen/homescreen.dart';
-import 'package:musicplayer/Screens/MusicHome/musichome.dart';
 import 'package:musicplayer/Screens/favoritelist.dart';
 import 'package:musicplayer/functions/songs.dart';
 import 'package:on_audio_query/on_audio_query.dart';
