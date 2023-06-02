@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:musicplayer/Screens/HomeScreen/Widgets/bottomsheet.dart';
-import 'package:musicplayer/Screens/favoritelist.dart';
 import 'package:musicplayer/Screens/favorites.dart';
 import 'package:musicplayer/functions/songs.dart';
 
@@ -18,7 +18,7 @@ class _ListtiledialogboxState extends State<Listtiledialogbox> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.16,
+      height: MediaQuery.of(context).size.height * 0.13,
       width: 110.w,
       decoration: const BoxDecoration(
         shape: BoxShape.rectangle,
@@ -30,7 +30,7 @@ class _ListtiledialogboxState extends State<Listtiledialogbox> {
           children: [
             InkWell(
               onTap: () {
-                Navigator.of(context).pop();
+                Get.back();
 
                 showPlaylistModalSheet(
                   context: context,
@@ -55,7 +55,7 @@ class _ListtiledialogboxState extends State<Listtiledialogbox> {
                 setState(() {
                   if (widget.isfav == true) {
                     widget.isfav = false;
-                    removefav(widget.song);
+                    favc.removefav(widget.song);
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Song removed from favorites'),
                       duration: Duration(seconds: 2),
@@ -63,13 +63,13 @@ class _ListtiledialogboxState extends State<Listtiledialogbox> {
                   } else {
                     widget.isfav = true;
 
-                    addfav(widget.song);
+                    favc.addfav(widget.song);
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Song added to favorites'),
                       duration: Duration(seconds: 2),
                     ));
                   }
-                  favlist.notifyListeners();
+                 
                 });
                 Navigator.of(context).pop();
               },

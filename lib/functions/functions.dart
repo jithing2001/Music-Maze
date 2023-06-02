@@ -1,7 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:musicplayer/Screens/HomeScreen/Widgets/miniplayer.dart';
 import 'package:musicplayer/Screens/Playlist/playlist.dart';
-import 'package:musicplayer/Screens/RecentScreen/recentscreen.dart';
 import 'package:musicplayer/Screens/Settings/settings.dart';
 import 'package:musicplayer/Screens/favorites.dart';
 import 'package:musicplayer/database/favmodel.dart';
@@ -50,7 +50,7 @@ class Functions {
       int count = 0;
       for (var songs in allsongs) {
         if (fav.id == songs.id) {
-          favlist.value.add(songs);
+          favc.favlist.value.add(songs);
           continue;
         } else {
           count++;
@@ -74,7 +74,7 @@ class Functions {
           break;
         }
       }
-      recentSongs.value = recentlist.reversed.toList();
+     recentc.recentSongs.value = recentlist.reversed.toList();
     }
   }
 
@@ -82,7 +82,7 @@ class Functions {
     Box<PlaylistClass> playlistDB = await Hive.openBox('playlist');
     for (PlaylistClass play in playlistDB.values) {
       EachPlaylist item = EachPlaylist(name: play.playlistName);
-      playlistlist.value.add(item);
+      playc.playlistlist.value.add(item);
       for (int id in play.songsId) {
         for (Songs song in allsongs) {
           if (id == song.id) {
@@ -92,7 +92,6 @@ class Functions {
       }
     }
 
-    playlistlist.notifyListeners();
   }
 
   Future notificationFetching() async {

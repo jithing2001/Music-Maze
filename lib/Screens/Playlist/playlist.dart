@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:musicplayer/Screens/Playlist/playlistsongs.dart';
+import 'package:musicplayer/controllers/playlistcontroller.dart';
 import 'package:musicplayer/functions/eachplaylist.dart';
 import 'package:musicplayer/functions/playlistfunction.dart';
 
@@ -11,7 +13,8 @@ class Playlists extends StatefulWidget {
   State<Playlists> createState() => _PlaylistState();
 }
 
-ValueNotifier<List<EachPlaylist>> playlistlist = ValueNotifier([]);
+// ValueNotifier<List<EachPlaylist>> playlistlist = ValueNotifier([]);
+PlaylistController playc = Get.put(PlaylistController());
 
 class _PlaylistState extends State<Playlists> {
   final TextEditingController playlistcontroller = TextEditingController();
@@ -72,15 +75,15 @@ class _PlaylistState extends State<Playlists> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              playlistCreating(playlistcontroller.text);
+                              playc.playlistCreating(playlistcontroller.text);
                               playlistcontroller.text = '';
                             });
 
                             Navigator.of(context).pop();
                           },
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            children: const [
+                            children: [
                               Icon(
                                 Icons.playlist_add,
                                 color: Colors.white,
@@ -98,140 +101,140 @@ class _PlaylistState extends State<Playlists> {
                 );
               });
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         backgroundColor: Colors.black,
       ),
-      body: ValueListenableBuilder(
-          valueListenable: playlistlist,
-          builder: (BuildContext context, value, Widget? child) {
-            return playlistlist.value.isEmpty
-                ? Container(
-                    child: const Center(
-                        child: Text(
-                      'playlist is empty',
-                      style: TextStyle(fontSize: 20),
-                    )),
-                  )
-                : ListView.builder(
-                    itemCount: playlistlist.value.length,
-                    itemBuilder: ((context, index) {
-                      return Padding(
-                        padding:
-                            const EdgeInsets.only(top: 15, left: 10, right: 10),
-                        child: ListTile(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => Playlistsongs(
-                                        playlistEach: playlistlist.value[index],
-                                      )));
-                            },
-                            tileColor: Colors.white,
-                            leading: const Icon(
-                              Icons.video_library,
-                              color: Colors.black,
-                              size: 30,
-                            ),
-                            title: Center(
-                              child: Text(
-                                playlistlist.value[index].name,
-                                style: const TextStyle(fontSize: 25),
+      body: 
+             Obx(()=>
+              playc.playlistlist.value.isEmpty
+                  ? Container(
+                      child: const Center(
+                          child: Text(
+                        'playlist is empty',
+                        style: TextStyle(fontSize: 20),
+                      )),
+                    )
+                  : ListView.builder(
+                      itemCount: playc.playlistlist.value.length,
+                      itemBuilder: ((context, index) {
+                        return Padding(
+                          padding:
+                              const EdgeInsets.only(top: 15, left: 10, right: 10),
+                          child: ListTile(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => Playlistsongs(
+                                          playlistEach: playc.playlistlist.value[index],
+                                        )));
+                              },
+                              tileColor: Colors.white,
+                              leading: const Icon(
+                                Icons.video_library,
+                                color: Colors.black,
+                                size: 30,
                               ),
-                            ),
-                            trailing: IconButton(
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Dialog(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.12,
-                                              width: 110.w,
-                                              child: Column(
-                                                children: [
-                                                  Text(
-                                                    'Are you sure you want to delete?',
-                                                    style:
-                                                        TextStyle(fontSize: 17),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 30.h,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      InkWell(
-                                                          onTap: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                          child: Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons.close,
-                                                                color:
-                                                                    Colors.red,
-                                                              ),
-                                                              Text(
-                                                                'No',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        17),
-                                                              ),
-                                                            ],
-                                                          )),
-                                                      SizedBox(
-                                                        width: 15.w,
-                                                      ),
-                                                      InkWell(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              playlistdelete(
-                                                                  index);
-                                                            });
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                          child: Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons.done,
-                                                                color: Colors
-                                                                    .green,
-                                                              ),
-                                                              Text('yes',
+                              title: Center(
+                                child: Text(
+                                 playc. playlistlist.value[index].name,
+                                  style: const TextStyle(fontSize: 25),
+                                ),
+                              ),
+                              trailing: IconButton(
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Dialog(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(10.0),
+                                              child: Container(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.12,
+                                                width: 110.w,
+                                                child: Column(
+                                                  children: [
+                                                    const Text(
+                                                      'Are you sure you want to delete?',
+                                                      style:
+                                                          TextStyle(fontSize: 17),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 30.h,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        InkWell(
+                                                            onTap: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                            child: const Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.close,
+                                                                  color:
+                                                                      Colors.red,
+                                                                ),
+                                                                Text(
+                                                                  'No',
                                                                   style: TextStyle(
                                                                       fontSize:
-                                                                          17)),
-                                                            ],
-                                                          ))
-                                                    ],
-                                                  )
-                                                ],
+                                                                          17),
+                                                                ),
+                                                              ],
+                                                            )),
+                                                        SizedBox(
+                                                          width: 15.w,
+                                                        ),
+                                                        InkWell(
+                                                            onTap: () {
+                                                              setState(() {
+                                                                playc.playlistdelete(
+                                                                    index);
+                                                              });
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                            child: const Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.done,
+                                                                  color: Colors
+                                                                      .green,
+                                                                ),
+                                                                Text('yes',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            17)),
+                                                              ],
+                                                            ))
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      });
-                                },
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                  size: 25,
-                                ))),
-                      );
-                    }));
-          }),
+                                          );
+                                        });
+                                  },
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                    size: 25,
+                                  ))),
+                        );
+                      })),
+             )
+         
     );
   }
 }

@@ -1,66 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:musicplayer/Screens/HomeScreen/Widgets/miniplayer.dart';
 import 'package:musicplayer/Screens/HomeScreen/homescreen.dart';
-import 'package:musicplayer/Screens/favoritelist.dart';
-import 'package:musicplayer/functions/songs.dart';
+import 'package:musicplayer/controllers/favcontroller.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-ValueNotifier<List<Songs>> favlist = ValueNotifier([]);
+//ValueNotifier<List<Songs>> favlist = ValueNotifier([]);
+FavController favc = Get.put(FavController()) ;
 
-class Favorites extends StatefulWidget {
-  const Favorites({super.key});
+class Favorites extends StatelessWidget {
+  Favorites({super.key});
 
-  @override
-  State<Favorites> createState() => _FavoritesState();
-}
-
-class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(Icons.arrow_back_ios_new),
-          color: Colors.black,
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: const Icon(Icons.arrow_back_ios_new),
+            color: Colors.black,
+          ),
+          elevation: 3,
+          title: const Text(
+            'Favorites',
+            style: TextStyle(fontSize: 30, color: Colors.black),
+          ),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
         ),
-        elevation: 3,
-        title: const Text(
-          'Favorites',
-          style: TextStyle(fontSize: 30, color: Colors.black),
-        ),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-      ),
-      body: ValueListenableBuilder(
-        valueListenable: favlist,
-        builder: (BuildContext context, value, Widget? child) =>
-            (favlist.value.isEmpty)
-                ? const Center(child: Text('No Favorites'))
-                : favBuilder(),
-      ),
-    );
+        body: Obx(() => (favc.favlist.isEmpty)
+            ? const Center(child: Text('No Favorites'))
+            : favBuilder()));
   }
 
   ListView favBuilder() {
     return ListView.builder(
-      itemCount: favlist.value.length,
+      itemCount: favc.favlist.length,
       itemBuilder: (BuildContext context, index) {
         return Padding(
           padding: const EdgeInsets.all(10.0),
           child: InkWell(
             onTap: () {
-              playsong(index, favlist.value);
+              playsong(index, favc.favlist.value);
               showBottomSheet(
                   enableDrag: false,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   context: context,
                   builder: (context) {
-                    return MiniPlayer();
+                    return const MiniPlayer();
                   });
               home.notifyListeners();
             },
@@ -87,7 +78,7 @@ class _FavoritesState extends State<Favorites> {
                         artworkQuality: FilterQuality.high,
                         artworkBorder: BorderRadius.circular(10),
                         artworkFit: BoxFit.cover,
-                        id: favlist.value[index].id!,
+                        id:favc. favlist.value[index].id!,
                         type: ArtworkType.AUDIO,
                         nullArtworkWidget: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
@@ -108,7 +99,7 @@ class _FavoritesState extends State<Favorites> {
                       SizedBox(
                         width: 190.w,
                         child: Text(
-                          '${favlist.value[index].songname}',
+                          '${favc.favlist[index].songname}',
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
@@ -118,13 +109,13 @@ class _FavoritesState extends State<Favorites> {
                   ),
                   IconButton(
                       onPressed: () {
-                        removefav(favlist.value[index]);
+                        favc.removefav(favc.favlist[index]);
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                           content: Text('Song removed from favorites'),
                           duration: Duration(seconds: 2),
                         ));
-                        favlist.notifyListeners();
+                      
                       },
                       icon: const Icon(
                         Icons.favorite,

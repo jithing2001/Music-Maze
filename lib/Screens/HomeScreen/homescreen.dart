@@ -13,6 +13,7 @@ import 'package:musicplayer/Screens/Settings/settings.dart';
 import 'package:musicplayer/Screens/favorites.dart';
 import 'package:musicplayer/functions/functions.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:get/get.dart';
 
 ValueNotifier<bool> home = ValueNotifier(true);
 
@@ -49,8 +50,7 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => SearchScreen()));
+                Get.to(SearchScreen());
               },
               icon: const Icon(
                 Icons.manage_search,
@@ -79,8 +79,7 @@ class HomeScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20)),
                             context: context,
                             builder: (context) {
-                              return MiniPlayer(
-                                 );
+                              return const MiniPlayer();
                             });
                       });
                     }
@@ -144,19 +143,16 @@ class HomeScreen extends StatelessWidget {
                               const Spacer(),
                               IconButton(
                                   onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return Dialog(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Listtiledialogbox(
-                                                isfav: favlist.value
-                                                    .contains(allsongs[index]),
-                                                song: allsongs[index]),
-                                          );
-                                        });
+                                    Get.dialog(AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      content: Listtiledialogbox(
+                                        isfav: favc.favlist.value
+                                            .contains(allsongs[index]),
+                                        song: allsongs[index],
+                                      ),
+                                    ));
                                   },
                                   icon: const Icon(Icons.more_horiz))
                             ],
@@ -181,10 +177,8 @@ class HomeScreen extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const RecentScreen(),
-                ));
+                Get.back();
+                Get.to(const RecentScreen());
               },
               child: DrawerListTile(
                   drawericon: Icons.restore,
@@ -193,10 +187,8 @@ class HomeScreen extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const Playlists(),
-                ));
+                Get.back();
+                Get.to(const Playlists());
               },
               child: DrawerListTile(
                 drawericon: Icons.video_library_outlined,
@@ -206,9 +198,8 @@ class HomeScreen extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const Favorites()));
+                Get.back();
+                Get.to(Favorites());
               },
               child: DrawerListTile(
                   drawericon: Icons.favorite,
@@ -217,9 +208,8 @@ class HomeScreen extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const Settings()));
+                Get.back();
+                Get.to(const Settings());
               },
               child: DrawerListTile(
                   drawericon: Icons.settings,

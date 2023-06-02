@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:musicplayer/Screens/Settings/widgets/privacy_policy_dialogue.dart';
 import 'package:musicplayer/Screens/Settings/widgets/settingstile.dart';
@@ -64,11 +65,7 @@ class _SettingsState extends State<Settings> {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.023),
                 GestureDetector(
                   onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return PolicyDialog(mdFileName: 'privacy_policy.md');
-                        });
+                    Get.dialog(PolicyDialog(mdFileName: 'privacy_policy.md'));
                   },
                   child: SettingsTile(
                     title: 'Privacy Policy',
@@ -79,12 +76,8 @@ class _SettingsState extends State<Settings> {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.023),
                 GestureDetector(
                   onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return PolicyDialog(
-                              mdFileName: 'termsandcondition.md');
-                        });
+                    Get.dialog(
+                        PolicyDialog(mdFileName: 'termsandcondition.md'));
                   },
                   child: SettingsTile(
                     title: 'Terms & Condition',
@@ -95,21 +88,32 @@ class _SettingsState extends State<Settings> {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.023),
                 GestureDetector(
                   onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Dialog(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30)),
-                            child: AboutDialogs(
-                              title: 'About',
-                              name: 'MUSIC MAZE',
-                              text1: 'App Designed and Developed\nby JITHIN',
-                              contact: 'CONTACT',
-                              mail: 'jithinkyd70@gmail.com',
-                            ),
-                          );
-                        });
+                    // showDialog(
+                    //     context: context,
+                    //     builder: (BuildContext context) {
+                    //       return Dialog(
+                    //         shape: RoundedRectangleBorder(
+                    //             borderRadius: BorderRadius.circular(30)),
+                    //         child: AboutDialogs(
+                    //           title: 'About',
+                    //           name: 'MUSIC MAZE',
+                    //           text1: 'App Designed and Developed\nby JITHIN',
+                    //           contact: 'CONTACT',
+                    //           mail: 'jithinkyd70@gmail.com',
+                    //         ),
+                    //       );
+                    //     });
+                    Get.dialog(AlertDialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      content: AboutDialogs(
+                        title: 'About',
+                        name: 'MUSIC MAZE',
+                        text1: 'App Designed and Developed\nby JITHIN',
+                        contact: 'CONTACT',
+                        mail: 'jithinkyd70@gmail.com',
+                      ),
+                    ));
                   },
                   child: SettingsTile(
                     title: 'About',

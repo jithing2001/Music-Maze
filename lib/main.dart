@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:musicplayer/Screens/SplashScreen/splashscreen.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +16,7 @@ Future<void> main() async {
   if (!Hive.isAdapterRegistered(PlaylistClassAdapter().typeId)) {
     Hive.registerAdapter(PlaylistClassAdapter());
   }
- 
+
   runApp(const MyApp());
 }
 
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
+        return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
               scaffoldBackgroundColor: const Color.fromRGBO(217, 217, 217, 1),

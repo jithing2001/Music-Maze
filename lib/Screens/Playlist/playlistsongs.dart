@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:musicplayer/Screens/HomeScreen/Widgets/miniplayer.dart';
-import 'package:musicplayer/Screens/MusicHome/musichome.dart';
+import 'package:musicplayer/Screens/Playlist/playlist.dart';
 import 'package:musicplayer/functions/eachplaylist.dart';
 import 'package:musicplayer/functions/functions.dart';
-import 'package:musicplayer/functions/playlistfunction.dart';
-import 'package:musicplayer/functions/songs.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class Playlistsongs extends StatefulWidget {
@@ -110,7 +108,7 @@ class _PlaylistsongsState extends State<Playlistsongs> {
                                                 allsongs[index]
                                                     .songname
                                                     .toString(),
-                                                style: TextStyle(fontSize: 18),
+                                                style: const TextStyle(fontSize: 18),
                                                 overflow: TextOverflow.ellipsis,
                                               )),
                                           const Spacer(),
@@ -121,7 +119,7 @@ class _PlaylistsongsState extends State<Playlistsongs> {
                                                         allsongs[index])) {
                                                   scaffoldMessengerKey
                                                       .currentState
-                                                      ?.showSnackBar(SnackBar(
+                                                      ?.showSnackBar(const SnackBar(
                                                     content: Text(
                                                         'Song already Contains'),
                                                     duration:
@@ -132,7 +130,7 @@ class _PlaylistsongsState extends State<Playlistsongs> {
                                                     widget.playlistEach.songlist
                                                         .add(allsongs[index]);
 
-                                                    playlistSongsAddDB(
+                                                    playc.playlistSongsAddDB(
                                                         allsongs[index],
                                                         widget
                                                             .playlistEach.name);
@@ -159,7 +157,7 @@ class _PlaylistsongsState extends State<Playlistsongs> {
           ],
         ),
         body: widget.playlistEach.songlist.isEmpty
-            ? Center(
+            ? const Center(
                 child: Text('Playlist is Empty'),
               )
             : ListView.builder(
@@ -176,7 +174,7 @@ class _PlaylistsongsState extends State<Playlistsongs> {
                                 borderRadius: BorderRadius.circular(20)),
                             context: context,
                             builder: (context) {
-                              return MiniPlayer();
+                              return const MiniPlayer();
                             });
                       },
                       child: Container(
@@ -193,7 +191,7 @@ class _PlaylistsongsState extends State<Playlistsongs> {
                                 height: 70.h,
                                 width: 65.h,
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                       topRight: Radius.circular(30),
                                       bottomRight: Radius.circular(30)),
                                   child: QueryArtworkWidget(
@@ -231,7 +229,7 @@ class _PlaylistsongsState extends State<Playlistsongs> {
                                       widget.playlistEach.songlist
                                           .removeAt(index);
 
-                                      playlistRemoveDB(allsongs[index],
+                                      playc.playlistRemoveDB(allsongs[index],
                                           widget.playlistEach.name);
                                     });
                                   },

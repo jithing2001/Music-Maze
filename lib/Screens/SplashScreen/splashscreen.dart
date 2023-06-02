@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:musicplayer/Screens/HomeScreen/homescreen.dart';
 import 'package:musicplayer/functions/functions.dart';
+import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,6 +14,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   Functions fun = Functions();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -28,9 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await fun.playlistfetching();
     await fun.notificationFetching();
 
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => HomeScreen(),
-    ));
+    Get.to(HomeScreen());
   }
 
   @override

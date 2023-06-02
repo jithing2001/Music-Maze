@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:musicplayer/functions/playlistfunction.dart';
+import 'package:get/get.dart';
+import 'package:musicplayer/Screens/Playlist/playlist.dart';
 
-class BottomsheetDialog extends StatefulWidget {
-  const BottomsheetDialog({
+class BottomsheetDialog extends StatelessWidget {
+  BottomsheetDialog({
     super.key,
   });
 
-  @override
-  State<BottomsheetDialog> createState() => _BottomsheetDialogState();
-}
-
-class _BottomsheetDialogState extends State<BottomsheetDialog> {
   TextEditingController playlistcontroller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -49,16 +46,13 @@ class _BottomsheetDialogState extends State<BottomsheetDialog> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.012),
             InkWell(
               onTap: () {
-                setState(() {
-                  playlistCreating(playlistcontroller.text);
-                  playlistcontroller.text = '';
-                });
-
-                Navigator.of(context).pop();
+                playc.playlistCreating(playlistcontroller.text);
+                playlistcontroller.text = '';
+                Get.back();
               },
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Icon(
                     Icons.library_add,
                     color: Colors.black,

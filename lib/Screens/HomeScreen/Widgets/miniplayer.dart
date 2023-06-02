@@ -1,15 +1,17 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:marquee/marquee.dart';
 import 'package:musicplayer/Screens/MusicHome/musichome.dart';
 import 'package:musicplayer/Screens/Settings/settings.dart';
+import 'package:musicplayer/controllers/recentcontroller.dart';
 import 'package:musicplayer/functions/functions.dart';
-import 'package:musicplayer/functions/recentfunction.dart';
 import 'package:musicplayer/functions/songs.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 List<Audio> playinglistAudio = [];
+RecentController recentc = Get.put(RecentController());
 
 class MiniPlayer extends StatefulWidget {
   const MiniPlayer({
@@ -20,13 +22,14 @@ class MiniPlayer extends StatefulWidget {
   State<MiniPlayer> createState() => _MiniPlayerState();
 }
 
+
+
 class _MiniPlayerState extends State<MiniPlayer> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => const MusicHome()));
+        Get.to(const MusicHome());
       },
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.11,
@@ -94,7 +97,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                               await player.previous();
                             });
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.skip_previous,
                             size: 30,
                           )),
@@ -120,7 +123,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                               await player.next();
                             });
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.skip_next,
                             size: 30,
                           ))
@@ -143,7 +146,7 @@ songfind(int playid) {
       break;
     }
   }
-  addrecent(currentlyPlaying!);
+  recentc.addrecent(currentlyPlaying!);
 }
 
 playsong(int index, List<Songs> songlist) {

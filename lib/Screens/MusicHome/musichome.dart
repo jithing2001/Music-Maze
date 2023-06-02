@@ -1,15 +1,13 @@
-
-
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marquee/marquee.dart';
 import 'package:musicplayer/Screens/HomeScreen/Widgets/bottomsheet.dart';
 import 'package:musicplayer/Screens/HomeScreen/Widgets/miniplayer.dart';
-import 'package:musicplayer/Screens/favoritelist.dart';
 import 'package:musicplayer/Screens/favorites.dart';
 import 'package:musicplayer/functions/songs.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -34,7 +32,7 @@ class _MusicHomeState extends State<MusicHome> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    isfavcolor = favlist.value.contains(currentlyPlaying);
+    isfavcolor = favc.favlist.contains(currentlyPlaying);
   }
 
   @override
@@ -53,7 +51,7 @@ class _MusicHomeState extends State<MusicHome> {
                 children: [
                   IconButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Get.back();
                       },
                       icon: const Icon(
                         Icons.arrow_back_ios,
@@ -124,7 +122,7 @@ class _MusicHomeState extends State<MusicHome> {
                           setState(() {
                             if (isfavcolor == false) {
                               isfavcolor = true;
-                              addfav(currentlyPlaying!);
+                              favc.addfav(currentlyPlaying!);
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(const SnackBar(
                                 content: Text('Song added to favorites'),
@@ -132,14 +130,13 @@ class _MusicHomeState extends State<MusicHome> {
                               ));
                             } else {
                               isfavcolor = false;
-                              removefav(currentlyPlaying!);
+                              favc.removefav(currentlyPlaying!);
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(const SnackBar(
                                 content: Text('Song removed from favorites'),
                                 duration: Duration(seconds: 2),
                               ));
                             }
-                            favlist.notifyListeners();
                           });
                         },
                         icon: Icon(
