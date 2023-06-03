@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:musicplayer/Screens/HomeScreen/Widgets/miniplayer.dart';
-import 'package:musicplayer/Screens/Playlist/playlist.dart';
+import 'package:get/get.dart';
+import 'package:musicplayer/view/HomeScreen/Widgets/miniplayer.dart';
+import 'package:musicplayer/view/Playlist/playlist.dart';
 import 'package:musicplayer/functions/eachplaylist.dart';
 import 'package:musicplayer/functions/functions.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -26,7 +27,7 @@ class _PlaylistsongsState extends State<Playlistsongs> {
           automaticallyImplyLeading: false,
           leading: IconButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
               icon: const Icon(
                 Icons.arrow_back_ios_new,
@@ -108,7 +109,8 @@ class _PlaylistsongsState extends State<Playlistsongs> {
                                                 allsongs[index]
                                                     .songname
                                                     .toString(),
-                                                style: const TextStyle(fontSize: 18),
+                                                style: const TextStyle(
+                                                    fontSize: 18),
                                                 overflow: TextOverflow.ellipsis,
                                               )),
                                           const Spacer(),
@@ -119,7 +121,8 @@ class _PlaylistsongsState extends State<Playlistsongs> {
                                                         allsongs[index])) {
                                                   scaffoldMessengerKey
                                                       .currentState
-                                                      ?.showSnackBar(const SnackBar(
+                                                      ?.showSnackBar(
+                                                          const SnackBar(
                                                     content: Text(
                                                         'Song already Contains'),
                                                     duration:

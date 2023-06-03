@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:musicplayer/database/playlist_model.dart';
 import 'package:musicplayer/functions/eachplaylist.dart';
 import 'package:musicplayer/functions/songs.dart';
+import 'package:musicplayer/model/playlist_model.dart';
 
 class PlaylistController extends GetxController {
   var playlistlist = <EachPlaylist>[].obs;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:musicplayer/Screens/HomeScreen/Widgets/listtiledialog.dart';
-import 'package:musicplayer/Screens/HomeScreen/Widgets/miniplayer.dart';
-import 'package:musicplayer/Screens/favorites.dart';
+import 'package:musicplayer/view/HomeScreen/Widgets/listtiledialog.dart';
+import 'package:musicplayer/view/HomeScreen/Widgets/miniplayer.dart';
+import 'package:musicplayer/view/favorites.dart';
 import 'package:musicplayer/controllers/searchcontroller.dart';
 import 'package:musicplayer/functions/functions.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -11,7 +11,6 @@ import 'package:on_audio_query/on_audio_query.dart';
 class SearchScreen extends StatelessWidget {
   SearchScreen({super.key});
 
-  // ValueNotifier<List<Songs>> data = ValueNotifier([]);
   SearchControllers searchc = Get.put(SearchControllers());
 
   TextEditingController _searchController = TextEditingController();
@@ -84,29 +83,20 @@ class SearchScreen extends StatelessWidget {
             ),
           ),
           GetBuilder<SearchControllers>(
-            init: searchc,
-            builder: (controller) {
-              return Expanded(
-                  child: _searchController.text.isEmpty ||
-                          _searchController.text.trim().isEmpty
-                      ? searchFunc(context)
-                      : searchc.data.isEmpty
-                          ? searchEmpty()
-                          : searchFound(context));
-            }
-          ),
+              init: searchc,
+              builder: (controller) {
+                return Expanded(
+                    child: _searchController.text.trim().isEmpty
+                        ? searchFunc(context)
+                        : searchc.data.isEmpty
+                            ? searchEmpty()
+                            : searchFound(context));
+              }),
         ],
       ),
     );
   }
 
-  // Widget hello(List data) {
-  //   if (data.isEmpty) {
-  //     return Text('E');
-  //   } else {
-  //     return Text('Ne');
-  //   }
-  // }
 
   clearText(context) {
     if (_searchController.text.isNotEmpty) {
@@ -123,7 +113,6 @@ class SearchScreen extends StatelessWidget {
       },
       itemCount: allsongs.length,
       itemBuilder: (BuildContext context, index) {
-        bool isfav = false;
         return Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: InkWell(
@@ -190,8 +179,8 @@ class SearchScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           content: Listtiledialogbox(
-                              isfav:
-                                  favc.favlist.value.contains(allsongs[index]),
+                              key: UniqueKey(),
+                              isfav: favc.favlist.contains(allsongs[index]),
                               song: allsongs[index]),
                         ));
                       },
@@ -220,7 +209,6 @@ class SearchScreen extends StatelessWidget {
       },
       itemCount: searchc.data.length,
       itemBuilder: (BuildContext context, index) {
-        // bool isfav = false;
         return Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: InkWell(
@@ -289,9 +277,8 @@ class SearchScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           content: Listtiledialogbox(
-                              isfav: favc.favlist.value
-                                  .contains(searchc.data.value[index]),
-                              song: searchc.data.value[index]),
+                              isfav: favc.favlist.contains(searchc.data[index]),
+                              song: searchc.data[index]),
                         ));
                       },
                       icon: const Icon(Icons.more_horiz))
@@ -304,11 +291,5 @@ class SearchScreen extends StatelessWidget {
     );
   }
 
-  // search(String searchText) {
-  //   data.value = allsongs
-  //       .where((element) => element.songname!
-  //           .toLowerCase()
-  //           .contains(searchText.toLowerCase().trim()))
-  //       .toList();
-  // }
+
 }

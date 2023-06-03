@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:marquee/marquee.dart';
-import 'package:musicplayer/Screens/MusicHome/musichome.dart';
-import 'package:musicplayer/Screens/Settings/settings.dart';
+import 'package:musicplayer/view/MusicHome/musichome.dart';
+import 'package:musicplayer/view/Settings/settings.dart';
 import 'package:musicplayer/controllers/recentcontroller.dart';
 import 'package:musicplayer/functions/functions.dart';
 import 'package:musicplayer/functions/songs.dart';
@@ -13,23 +13,16 @@ import 'package:on_audio_query/on_audio_query.dart';
 List<Audio> playinglistAudio = [];
 RecentController recentc = Get.put(RecentController());
 
-class MiniPlayer extends StatefulWidget {
+class MiniPlayer extends StatelessWidget {
   const MiniPlayer({
     super.key,
   });
 
   @override
-  State<MiniPlayer> createState() => _MiniPlayerState();
-}
-
-
-
-class _MiniPlayerState extends State<MiniPlayer> {
-  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(const MusicHome());
+        Get.to(MusicHome());
       },
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.11,
@@ -93,9 +86,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                     children: [
                       IconButton(
                           onPressed: () {
-                            setState(() async {
-                              await player.previous();
-                            });
+                            player.previous();
                           },
                           icon: const Icon(
                             Icons.skip_previous,
@@ -106,22 +97,22 @@ class _MiniPlayerState extends State<MiniPlayer> {
                         builder: (context, isPlaying) {
                           return IconButton(
                               onPressed: () {
-                                setState(() {
-                                  isPlaying = !isPlaying;
-                                  player.playOrPause();
-                                });
+                                now.playPause();
+                                player.playOrPause();
                               },
-                              icon: Icon(
-                                isPlaying ? Icons.pause : Icons.play_arrow,
-                                size: 30,
+                              icon: Obx(
+                                () => Icon(
+                                  now.isPlaying.value
+                                      ? Icons.play_arrow
+                                      : Icons.pause,
+                                  size: 30,
+                                ),
                               ));
                         },
                       ),
                       IconButton(
                           onPressed: () {
-                            setState(() async {
-                              await player.next();
-                            });
+                            player.next();
                           },
                           icon: const Icon(
                             Icons.skip_next,

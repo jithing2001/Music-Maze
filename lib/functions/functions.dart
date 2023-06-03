@@ -1,11 +1,11 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:musicplayer/Screens/HomeScreen/Widgets/miniplayer.dart';
-import 'package:musicplayer/Screens/Playlist/playlist.dart';
-import 'package:musicplayer/Screens/Settings/settings.dart';
-import 'package:musicplayer/Screens/favorites.dart';
-import 'package:musicplayer/database/favmodel.dart';
-import 'package:musicplayer/database/playlist_model.dart';
+import 'package:musicplayer/model/favmodel.dart';
+import 'package:musicplayer/model/playlist_model.dart';
+import 'package:musicplayer/view/HomeScreen/Widgets/miniplayer.dart';
+import 'package:musicplayer/view/Playlist/playlist.dart';
+import 'package:musicplayer/view/Settings/settings.dart';
+import 'package:musicplayer/view/favorites.dart';
 import 'package:musicplayer/functions/eachplaylist.dart';
 import 'package:musicplayer/functions/songs.dart';
 import 'package:on_audio_query/on_audio_query.dart';

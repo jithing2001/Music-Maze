@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:musicplayer/Screens/Playlist/playlist.dart';
+import 'package:musicplayer/view/Playlist/playlist.dart';
 
 class BottomsheetDialog extends StatelessWidget {
   BottomsheetDialog({

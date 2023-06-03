@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:musicplayer/Screens/HomeScreen/Widgets/listtiledialog.dart';
-import 'package:musicplayer/Screens/HomeScreen/Widgets/miniplayer.dart';
-import 'package:musicplayer/Screens/favorites.dart';
+import 'package:musicplayer/view/HomeScreen/Widgets/listtiledialog.dart';
+import 'package:musicplayer/view/HomeScreen/Widgets/miniplayer.dart';
+import 'package:musicplayer/view/favorites.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class RecentScreen extends StatelessWidget {
@@ -105,10 +105,10 @@ class RecentScreen extends StatelessWidget {
                                 Get.dialog(AlertDialog(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10)),
-                                  content: Listtiledialogbox(
-                                      isfav: favc.favlist.value.contains(
-                                          recentc.recentSongs.value[index]),
-                                      song: recentc.recentSongs.value[index]),
+                                  content: Listtiledialogbox(key: UniqueKey(),
+                                      isfav: favc.favlist.contains(
+                                          recentc.recentSongs[index]),
+                                      song: recentc.recentSongs[index]),
                                 ));
                               },
                               icon: const Icon(Icons.more_horiz))
@@ -124,4 +124,3 @@ class RecentScreen extends StatelessWidget {
   }
 }
 
-// ValueNotifier<List<Songs>> recentSongs = ValueNotifier([]);

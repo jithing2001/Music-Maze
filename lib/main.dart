@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:musicplayer/Screens/SplashScreen/splashscreen.dart';
+import 'package:musicplayer/model/favmodel.dart';
+import 'package:musicplayer/model/playlist_model.dart';
+import 'package:musicplayer/view/SplashScreen/splashscreen.dart';
 import 'package:flutter/services.dart';
-import 'package:musicplayer/database/favmodel.dart';
-import 'package:musicplayer/database/playlist_model.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

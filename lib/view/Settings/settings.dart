@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:musicplayer/Screens/Settings/widgets/privacy_policy_dialogue.dart';
-import 'package:musicplayer/Screens/Settings/widgets/settingstile.dart';
-import 'package:musicplayer/Screens/Settings/widgets/about.dart';
+import 'package:musicplayer/view/Settings/widgets/privacy_policy_dialogue.dart';
+import 'package:musicplayer/view/Settings/widgets/settingstile.dart';
+import 'package:musicplayer/view/Settings/widgets/about.dart';
 import 'package:share_plus/share_plus.dart';
 
 class Settings extends StatefulWidget {
@@ -23,7 +23,7 @@ class _SettingsState extends State<Settings> {
           automaticallyImplyLeading: false,
           leading: IconButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
               icon: const Icon(
                 Icons.arrow_back_ios_new,
@@ -88,21 +88,6 @@ class _SettingsState extends State<Settings> {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.023),
                 GestureDetector(
                   onTap: () {
-                    // showDialog(
-                    //     context: context,
-                    //     builder: (BuildContext context) {
-                    //       return Dialog(
-                    //         shape: RoundedRectangleBorder(
-                    //             borderRadius: BorderRadius.circular(30)),
-                    //         child: AboutDialogs(
-                    //           title: 'About',
-                    //           name: 'MUSIC MAZE',
-                    //           text1: 'App Designed and Developed\nby JITHIN',
-                    //           contact: 'CONTACT',
-                    //           mail: 'jithinkyd70@gmail.com',
-                    //         ),
-                    //       );
-                    //     });
                     Get.dialog(AlertDialog(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:musicplayer/database/favmodel.dart';
 import 'package:musicplayer/functions/songs.dart';
+import 'package:musicplayer/model/favmodel.dart';
 
 class FavController extends GetxController {
   var favlist = <Songs>[].obs;

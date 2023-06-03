@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:get/get.dart';
 
 class PolicyDialog extends StatelessWidget {
   String mdFileName;
@@ -14,8 +15,8 @@ class PolicyDialog extends StatelessWidget {
         children: [
           Expanded(
               child: FutureBuilder(
-                  future:
-                      Future.delayed(const Duration(microseconds: 150)).then((value) {
+                  future: Future.delayed(const Duration(microseconds: 150))
+                      .then((value) {
                     return rootBundle.loadString('Assets/Images/$mdFileName');
                   }),
                   builder: ((context, snapshot) {
@@ -28,7 +29,7 @@ class PolicyDialog extends StatelessWidget {
                   }))),
           ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
               child: const Text('Close'))
         ],

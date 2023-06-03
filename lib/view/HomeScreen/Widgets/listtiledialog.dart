@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:musicplayer/Screens/HomeScreen/Widgets/bottomsheet.dart';
-import 'package:musicplayer/Screens/favorites.dart';
+import 'package:musicplayer/controllers/faviconcontroller.dart';
+import 'package:musicplayer/view/HomeScreen/Widgets/bottomsheet.dart';
 import 'package:musicplayer/functions/songs.dart';
+import 'package:musicplayer/view/favorites.dart';
 
-class Listtiledialogbox extends StatefulWidget {
+FavIconController favi = FavIconController();
+
+class Listtiledialogbox extends StatelessWidget {
   Listtiledialogbox({super.key, required this.isfav, required this.song});
 
   bool isfav;
   Songs song;
-  @override
-  State<Listtiledialogbox> createState() => _ListtiledialogboxState();
-}
 
-class _ListtiledialogboxState extends State<Listtiledialogbox> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.13,
+      height: MediaQuery.of(context).size.height * 0.14,
       width: 110.w,
       decoration: const BoxDecoration(
         shape: BoxShape.rectangle,
@@ -34,7 +33,7 @@ class _ListtiledialogboxState extends State<Listtiledialogbox> {
 
                 showPlaylistModalSheet(
                   context: context,
-                  song: widget.song,
+                  song: song,
                 );
               },
               child: Row(
@@ -52,37 +51,26 @@ class _ListtiledialogboxState extends State<Listtiledialogbox> {
             SizedBox(height: 20.h),
             InkWell(
               onTap: () {
-                setState(() {
-                  if (widget.isfav == true) {
-                    widget.isfav = false;
-                    favc.removefav(widget.song);
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Song removed from favorites'),
-                      duration: Duration(seconds: 2),
-                    ));
-                  } else {
-                    widget.isfav = true;
-
-                    favc.addfav(widget.song);
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Song added to favorites'),
-                      duration: Duration(seconds: 2),
-                    ));
-                  }
-                 
-                });
-                Navigator.of(context).pop();
+                favi.iconFunction(song, context);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.favorite,
-                    color: widget.isfav ? Colors.red : Colors.black,
+                  Obx(
+                    () => Icon(
+                      Icons.favorite,
+                      color: favc.favlist.contains(song)
+                          ? Colors.red
+                          : Colors.black,
+                    ),
                   ),
-                  Text(
-                    widget.isfav ? 'Remove from Favorites' : 'Add to Favorites',
-                    style: const TextStyle(color: Colors.black, fontSize: 20),
+                  Obx(
+                    () => Text(
+                      favc.favlist.contains(song)
+                          ? 'Remove from Favorites'
+                          : 'Add to Favorites',
+                      style: const TextStyle(color: Colors.black, fontSize: 20),
+                    ),
                   ),
                 ],
               ),

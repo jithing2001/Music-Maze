@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:musicplayer/Screens/HomeScreen/Widgets/miniplayer.dart';
-import 'package:musicplayer/Screens/HomeScreen/homescreen.dart';
+import 'package:musicplayer/view/HomeScreen/Widgets/listtiledialog.dart';
+import 'package:musicplayer/view/HomeScreen/Widgets/miniplayer.dart';
 import 'package:musicplayer/controllers/favcontroller.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-//ValueNotifier<List<Songs>> favlist = ValueNotifier([]);
-FavController favc = Get.put(FavController()) ;
+FavController favc = Get.put(FavController());
 
 class Favorites extends StatelessWidget {
   Favorites({super.key});
@@ -44,7 +43,7 @@ class Favorites extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: InkWell(
             onTap: () {
-              playsong(index, favc.favlist.value);
+              playsong(index, favc.favlist);
               showBottomSheet(
                   enableDrag: false,
                   shape: RoundedRectangleBorder(
@@ -53,7 +52,6 @@ class Favorites extends StatelessWidget {
                   builder: (context) {
                     return const MiniPlayer();
                   });
-              home.notifyListeners();
             },
             child: Container(
               height: MediaQuery.of(context).size.height * 0.1,
@@ -78,7 +76,7 @@ class Favorites extends StatelessWidget {
                         artworkQuality: FilterQuality.high,
                         artworkBorder: BorderRadius.circular(10),
                         artworkFit: BoxFit.cover,
-                        id:favc. favlist.value[index].id!,
+                        id: favc.favlist[index].id!,
                         type: ArtworkType.AUDIO,
                         nullArtworkWidget: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
@@ -115,7 +113,7 @@ class Favorites extends StatelessWidget {
                           content: Text('Song removed from favorites'),
                           duration: Duration(seconds: 2),
                         ));
-                      
+                        favi.isfav.value = false;
                       },
                       icon: const Icon(
                         Icons.favorite,
