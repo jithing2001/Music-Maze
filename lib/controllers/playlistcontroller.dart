@@ -5,6 +5,7 @@ import 'package:musicplayer/functions/songs.dart';
 import 'package:musicplayer/model/playlist_model.dart';
 
 class PlaylistController extends GetxController {
+  
   var playlistlist = <EachPlaylist>[].obs;
 
   Future playlistCreating(playlistName) async {

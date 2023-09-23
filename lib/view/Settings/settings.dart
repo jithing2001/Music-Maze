@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:musicplayer/controllers/notificationcontroller.dart';
 import 'package:musicplayer/view/Settings/widgets/privacy_policy_dialogue.dart';
 import 'package:musicplayer/view/Settings/widgets/settingstile.dart';
 import 'package:musicplayer/view/Settings/widgets/about.dart';
 import 'package:share_plus/share_plus.dart';
 
-class Settings extends StatefulWidget {
+class Settings extends StatelessWidget {
   const Settings({super.key});
 
-  @override
-  State<Settings> createState() => _SettingsState();
-}
-
-late bool notification;
-
-class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,13 +36,13 @@ class _SettingsState extends State<Settings> {
                 SettingsTile(
                   title: 'Notification',
                   tileicon: Icons.notifications_active,
-                  click: Switch(
-                    value: notification,
-                    onChanged: (value) {
-                      setState(() {
-                        notificationFunction(value);
-                      });
-                    },
+                  click: Obx(
+                    () => Switch(
+                      value: notifi.notification.value,
+                      onChanged: (value) {
+                        notifi.notificationFunction(value);
+                      },
+                    ),
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.023),
@@ -111,8 +104,5 @@ class _SettingsState extends State<Settings> {
   }
 }
 
-notificationFunction(value) async {
-  notification = value;
-  Box<bool> notifydb = await Hive.openBox('notification');
-  notifydb.add(notification);
-}
+late bool notification;
+NotificationController notifi = Get.put(NotificationController());

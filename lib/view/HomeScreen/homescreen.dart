@@ -80,6 +80,7 @@ class HomeScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20)),
                             context: context,
                             builder: (context) {
+                         
                               return const MiniPlayer();
                             });
                       });
@@ -94,7 +95,6 @@ class HomeScreen extends StatelessWidget {
                       onTap: () {
                         playsong(index, allsongs);
                         homeC.setHomeValue(!homeC.home);
-                        
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),

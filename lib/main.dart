@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
               scaffoldBackgroundColor: const Color.fromRGBO(217, 217, 217, 1),
               appBarTheme: const AppBarTheme(
                   backgroundColor: Color.fromRGBO(217, 217, 217, 1))),
-          home: const SplashScreen(),
+          home:  SplashScreen(),
         );
       },
     );

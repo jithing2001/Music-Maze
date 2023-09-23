@@ -123,4 +123,3 @@ class RecentScreen extends StatelessWidget {
         ));
   }
 }
-

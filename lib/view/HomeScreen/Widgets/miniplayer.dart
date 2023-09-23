@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,6 +22,11 @@ class MiniPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      now.isPlaying.value = false;
+    });
+    log('mini');
+
     return InkWell(
       onTap: () {
         Get.to(MusicHome());
@@ -99,6 +106,7 @@ class MiniPlayer extends StatelessWidget {
                               onPressed: () {
                                 now.playPause();
                                 player.playOrPause();
+                                log(now.isPlaying.value.toString());
                               },
                               icon: Obx(
                                 () => Icon(

@@ -5,23 +5,12 @@ import 'package:musicplayer/view/HomeScreen/homescreen.dart';
 import 'package:musicplayer/functions/functions.dart';
 import 'package:get/get.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class SplashScreen extends StatelessWidget {
+   SplashScreen({super.key});
 
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
   Functions fun = Functions();
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    fetchcalling();
-  }
-
+  // @override
   Future fetchcalling() async {
     await Future.delayed(const Duration(seconds: 1));
     await fun.fetchSongs();
@@ -30,11 +19,14 @@ class _SplashScreenState extends State<SplashScreen> {
     await fun.playlistfetching();
     await fun.notificationFetching();
 
-    Get.to(HomeScreen());
+    Get.off(HomeScreen());
   }
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      fetchcalling();
+    });
     return Scaffold(
       backgroundColor: const Color.fromRGBO(217, 217, 217, 1),
       body: Column(
